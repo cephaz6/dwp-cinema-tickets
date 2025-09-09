@@ -1,18 +1,30 @@
 {
-  "name": "cinema-tickets-jaavascript",
+  "name": "cinema-tickets-javascript",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
-    "coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage --runInBand"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Cinema ticket booking system",
   "type": "module",
+  "main": "src/pairtest/lib/TicketService.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
   "devDependencies": {
-    "cross-env": "^10.0.0",
-    "jest": "^29.7.0"
-  }
+    "jest": "^29.0.0",
+    "@jest/globals": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "extensionsToTreatAsEsm": [
+      ".js"
+    ],
+    "globals": {
+      "jest": {
+        "useESM": true
+      }
+    }
+  },
+  "author": "Cephas",
+  "license": "ISC"
 }
