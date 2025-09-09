@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach } from "@jest/globals";
 import TicketService from "../pairtest/lib/TicketService.js";
 import TicketTypeRequest from "../pairtest/lib/TicketTypeRequest.js";
 import InvalidPurchaseException from "../pairtest/lib/InvalidPurchaseException.js";
@@ -38,16 +39,40 @@ describe("TicketService", () => {
         ticketService.purchaseTickets(1, adultRequest);
       }).not.toThrow();
     });
+
+    test("should allow multiple ticket requests of same type", () => {
+      const adultRequest1 = new TicketTypeRequest("ADULT", 2);
+      const adultRequest2 = new TicketTypeRequest("ADULT", 3);
+      expect(() => {
+        ticketService.purchaseTickets(1, adultRequest1, adultRequest2);
+      }).not.toThrow();
+    });
   });
 
-  describe("Invalid Purchases", () => {
-    test("should reject invalid account ID", () => {
+  describe("Invalid Purchases - Account Validation", () => {
+    test("should reject zero account ID", () => {
       const adultRequest = new TicketTypeRequest("ADULT", 1);
       expect(() => {
         ticketService.purchaseTickets(0, adultRequest);
       }).toThrow(InvalidPurchaseException);
     });
 
+    test("should reject negative account ID", () => {
+      const adultRequest = new TicketTypeRequest("ADULT", 1);
+      expect(() => {
+        ticketService.purchaseTickets(-1, adultRequest);
+      }).toThrow(InvalidPurchaseException);
+    });
+
+    test("should reject non-integer account ID", () => {
+      const adultRequest = new TicketTypeRequest("ADULT", 1);
+      expect(() => {
+        ticketService.purchaseTickets(1.5, adultRequest);
+      }).toThrow(InvalidPurchaseException);
+    });
+  });
+
+  describe("Invalid Purchases - Business Rules", () => {
     test("should reject child tickets without adult", () => {
       const childRequest = new TicketTypeRequest("CHILD", 1);
       expect(() => {
@@ -72,6 +97,14 @@ describe("TicketService", () => {
     test("should reject empty ticket requests", () => {
       expect(() => {
         ticketService.purchaseTickets(1);
+      }).toThrow(InvalidPurchaseException);
+    });
+
+    test("should reject mixed tickets exceeding 25 total", () => {
+      const adultRequest = new TicketTypeRequest("ADULT", 20);
+      const childRequest = new TicketTypeRequest("CHILD", 6);
+      expect(() => {
+        ticketService.purchaseTickets(1, adultRequest, childRequest);
       }).toThrow(InvalidPurchaseException);
     });
   });
