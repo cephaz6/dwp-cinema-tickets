@@ -28,7 +28,6 @@ This system handles cinema ticket purchases with the following features:
 ```bash
 # Clone/download the project
 git clone "https://github.com/cephaz6/dwp-cinema-tickets"
-cd cinema-tickets-javascript
 
 # Install dependencies
 npm install
