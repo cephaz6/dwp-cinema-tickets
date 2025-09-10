@@ -46,15 +46,13 @@ export default class TicketService {
     // Calculate seats needed (infants don't get seats)
     const totalSeats = this.#calculateTotalSeats(ticketCounts);
 
-    // Check all business rules are followed
+    // to follow business rules
     this.#validateBusinessRules(ticketCounts);
     this.#processPayment(accountId, totalAmount);
     this.#reserveSeats(accountId, totalSeats);
   }
 
-  /**
-   * Check account ID is a positive number
-   */
+  // All Account ID Must be a positive number
   #validateAccountId(accountId) {
     if (!Number.isInteger(accountId) || accountId <= 0) {
       throw new InvalidPurchaseException(
@@ -63,9 +61,7 @@ export default class TicketService {
     }
   }
 
-  /**
-   * Check we have valid ticket requests
-   */
+  // This code block checks for the validity of a ticket
   #validateTicketRequests(ticketTypeRequests) {
     // Must have at least one ticket request
     if (!ticketTypeRequests || ticketTypeRequests.length === 0) {
