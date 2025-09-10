@@ -1,5 +1,3 @@
-// Location: src/pairtest/lib/TicketService.js
-
 import TicketTypeRequest from "./TicketTypeRequest.js";
 import InvalidPurchaseException from "./InvalidPurchaseException.js";
 import TicketPaymentService from "../thirdparty/paymentgateway/TicketPaymentService.js";
